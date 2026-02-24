@@ -1,16 +1,57 @@
-<!DOCTYPE html>
-
-<html lang="de">
+<!doctype html>
+<html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>Finn Döbele</title>
-    <link rel="stylesheet" href="style.css">
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Flipping Book</title>
+  <link rel="stylesheet" href="style.css" />
 </head>
-
 <body>
-    <h1>Hi, ich bin Finn 👋</h1>
-    <p>Informatikstudent & Entwickler</p>
 
-    <script src="main.js"></script>
+  <main class="wrap">
+    <div class="controls">
+      <button id="prevBtn" aria-label="Previous page">←</button>
+      <span id="counter" aria-live="polite"></span>
+      <button id="nextBtn" aria-label="Next page">→</button>
+    </div>
+
+    <section class="book" aria-label="Flip book">
+      <!-- Each .page is a sheet. Front = right page, Back = next left page -->
+      <div class="page">
+        <div class="face front">
+          <h2>Cover / Page 1 (right)</h2>
+          <p>This is the first right page.</p>
+        </div>
+        <div class="face back">
+          <h2>Page 2 (left)</h2>
+          <p>This appears after you flip once.</p>
+        </div>
+      </div>
+
+      <div class="page">
+        <div class="face front">
+          <h2>Page 3 (right)</h2>
+          <p>More content here.</p>
+        </div>
+        <div class="face back">
+          <h2>Page 4 (left)</h2>
+          <p>More content here.</p>
+        </div>
+      </div>
+
+      <div class="page">
+        <div class="face front">
+          <h2>Page 5 (right)</h2>
+          <p>Last spread example.</p>
+        </div>
+        <div class="face back">
+          <h2>Back / The End</h2>
+          <p>Done 🎉</p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <script src="main.js"></script>
 </body>
 </html>

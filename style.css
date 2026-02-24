@@ -1,5 +1,123 @@
+:root {
+  --book-w: 900px;
+  --book-h: 520px;
+  --page-bg: #fffdf7;
+  --shadow: rgba(0,0,0,.18);
+  --border: rgba(0,0,0,.10);
+}
+
+* { box-sizing: border-box; }
 body {
-  font-family: Arial, sans-serif;
-  text-align: center;
-  margin-top: 100px;
+  margin: 0;
+  min-height: 100vh;
+  display: grid;
+  place-items: center;
+  font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+  background: #111;
+  color: #eee;
+}
+
+.wrap { width: min(var(--book-w), 95vw); }
+
+.controls{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap: 14px;
+  margin-bottom: 16px;
+}
+
+.controls button{
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+  border: 1px solid var(--border);
+  background: #1b1b1b;
+  color: #fff;
+  font-size: 20px;
+  cursor: pointer;
+}
+.controls button:disabled{
+  opacity: .35;
+  cursor: not-allowed;
+}
+#counter{ font-variant-numeric: tabular-nums; opacity: .9; }
+
+/* The open book */
+.book{
+  position: relative;
+  width: min(var(--book-w), 95vw);
+  height: min(var(--book-h), 60vh);
+  margin: 0 auto;
+  perspective: 1800px; /* important for 3D */
+  background: transparent;
+}
+
+/* Spine / base shadow */
+.book::before{
+  content:"";
+  position:absolute;
+  inset: 0;
+  border-radius: 18px;
+  box-shadow: 0 30px 70px var(--shadow);
+}
+
+/* Each sheet sits on the right side and flips left */
+.page{
+  position:absolute;
+  top:0;
+  left:50%;              /* anchor at the spine */
+  width:50%;
+  height:100%;
+  transform-origin: left center;   /* flip around the spine edge */
+  transform-style: preserve-3d;
+  transition: transform 900ms cubic-bezier(.2,.8,.2,1);
+  border-radius: 0 18px 18px 0;
+  z-index: 10; /* JS will also adjust stacking */
+}
+
+/* Flipped sheet */
+.page.flipped{
+  transform: rotateY(-180deg);
+}
+
+/* Front/Back faces */
+.face{
+  position:absolute;
+  inset:0;
+  backface-visibility: hidden;
+  background: var(--page-bg);
+  color:#111;
+  padding: 34px 34px;
+  border: 1px solid var(--border);
+  overflow:hidden;
+}
+
+.front{
+  border-left: none; /* looks like it’s attached to spine */
+  border-radius: 0 18px 18px 0;
+  box-shadow: inset 18px 0 24px rgba(0,0,0,.06);
+}
+
+/* Back face becomes the left page of the next spread */
+.back{
+  transform: rotateY(180deg);
+  border-right: none;
+  border-radius: 18px 0 0 18px;
+  box-shadow: inset -18px 0 24px rgba(0,0,0,.06);
+}
+
+/* Optional: a visible left page underneath (static) */
+.book::after{
+  content:"";
+  position:absolute;
+  top:0;
+  left:0;
+  width:50%;
+  height:100%;
+  background: var(--page-bg);
+  border: 1px solid var(--border);
+  border-right: none;
+  border-radius: 18px 0 0 18px;
+  box-shadow: inset -18px 0 24px rgba(0,0,0,.06);
 }
